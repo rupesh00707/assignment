@@ -15,7 +15,7 @@ const LoginScreen = ({navigation}) => {
     const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
     if (confirmation) {
       navigation.navigate('OTP', {
-        phoneNumber: '+91' + phoneNumber,
+        phoneNumber:  phoneNumber,
         confirm: confirmation,
       });
     } else {

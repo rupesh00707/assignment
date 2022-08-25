@@ -9,7 +9,7 @@ const phoneInput = ({...otherProps}) => {
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../assets/image/Flag-of-India.png')}
+          source={require('../../assets/image/Flag-of-India.jpg')}
           style={styles.image}
         />
       </View>

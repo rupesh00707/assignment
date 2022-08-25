@@ -16,7 +16,7 @@ const PetDisplayCard = ({name, breed, age, item, onPress}) => {
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../assets/image/dog.png')}
+          source={require('../../assets/image/dog.jpg')}
           style={styles.image}
         />
       </View>
