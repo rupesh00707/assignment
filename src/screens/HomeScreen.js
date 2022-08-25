@@ -36,7 +36,7 @@ const HomeScreen = ({navigation}) => {
             type="ionicon"
             color={Colors.fontDark}
             size={vw(10)}
-            onPress={() => alert('Back')}
+            onPress={() => alert('Sorry you can not go  back from home screen')}
             style={styles.backIcon}
           />
         </View>
@@ -46,8 +46,7 @@ const HomeScreen = ({navigation}) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
-          style={{width: '100%'}}
-          >
+          style={{width: '100%'}}>
           {petsData?.map((pet, index) => {
             return (
               <PetDisplayCard
