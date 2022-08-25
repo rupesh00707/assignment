@@ -31,7 +31,7 @@ const AddPetScreen = ({navigation}) => {
         petAge,
         gender,
       },
-      'Pet added SuccessGully',
+      'Pet added SuccessFully',
     );
   };
 
