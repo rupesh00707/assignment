@@ -4,7 +4,7 @@ import {View, Text, Image, TextInput, StyleSheet} from 'react-native';
 
 import {styles} from '../styles/components/PhoneInput';
 
-const phoneInput = () => {
+const phoneInput = ({...otherProps}) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -21,6 +21,7 @@ const phoneInput = () => {
           placeholderTextColor="rgba(255, 255, 255, 0.50)"
           style={styles.input}
           keyboardType="phone-pad"
+          {...otherProps}
         />
       </View>
     </View>
