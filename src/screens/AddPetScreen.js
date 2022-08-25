@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import {useStore} from '../global/store';
+import {create} from '../function/create';
 //Components
 import {Icon} from 'react-native-elements';
 import CustomInput from '../components/customInput';
@@ -10,10 +11,30 @@ import Counter from '../components/counter';
 
 import {styles} from '../styles/screens/AddPet';
 import {vw, Colors} from '../utilities/variables';
+import firestore from '@react-native-firebase/firestore';
 
 const AddPetScreen = ({navigation}) => {
   const {user, setUser} = useStore();
+  const [petName, setPetName] = useState('');
+  const [petBreed, setPetBreed] = useState('');
+  const [petAge, setPetAge] = useState({
+    years: 0,
+    months: 0,
+  });
   const [gender, setGender] = useState('Male');
+
+  const addPet = () => {
+    create(
+      `${user.uid}`,
+      {
+        petName,
+        petBreed,
+        petAge,
+        gender,
+      },
+      'Pet added SuccessGully',
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -52,19 +73,51 @@ const AddPetScreen = ({navigation}) => {
         </Text>
       </View>
       <View style={styles.formContainer}>
-        <CustomInput label={'Pet Name'} />
-        <CustomInput label={'Breed'} />
+        <CustomInput
+          label={'Pet Name'}
+          value={petName}
+          onChangeText={setPetName}
+        />
+        <CustomInput
+          label={'Breed'}
+          value={petBreed}
+          onChangeText={setPetBreed}
+        />
         <Text style={styles.ageHeadingText}>Age</Text>
         <View style={styles.ageContainer}>
           <View style={styles.counter1}>
-            <Counter />
+            <Counter
+              value={petAge.years}
+              onIncrement={() =>
+                setPetAge({...petAge, years: petAge.years + 1})
+              }
+              onDecrement={() => {
+                if (petAge.years > 0) {
+                  setPetAge({...petAge, years: petAge.years - 1});
+                } else {
+                  alert('Cannot be less than 0');
+                }
+              }}
+            />
             <View style={styles.counterLabelContainer}>
               <Text style={styles.counterLabel}>Years</Text>
             </View>
           </View>
           <Text style={styles.andText}>&</Text>
           <View style={styles.counter1}>
-            <Counter />
+            <Counter
+              value={petAge.months}
+              onIncrement={() =>
+                setPetAge({...petAge, months: petAge.months + 1})
+              }
+              onDecrement={() => {
+                if (petAge.months > 0) {
+                  setPetAge({...petAge, months: petAge.months - 1});
+                } else {
+                  alert('Cannot be less than 0');
+                }
+              }}
+            />
             <View style={styles.counterLabelContainer}>
               <Text style={styles.counterLabel}>Months</Text>
             </View>
@@ -96,7 +149,7 @@ const AddPetScreen = ({navigation}) => {
           />
         </TouchableOpacity>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={addPet}>
             <Text style={styles.buttonText}>Next</Text>
             <View style={styles.buttonIcon}>
               <Icon
@@ -104,7 +157,6 @@ const AddPetScreen = ({navigation}) => {
                 type="ionicon"
                 color={Colors.white}
                 size={vw(4)}
-                onPress={() => navigation.goBack()}
               />
             </View>
           </TouchableOpacity>
