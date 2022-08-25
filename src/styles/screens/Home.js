@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   },
   cardContainer: {
     width: '100%',
-    height: vw(140),
+    height: vw(130),
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',

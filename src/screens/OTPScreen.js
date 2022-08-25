@@ -91,13 +91,7 @@ const OTPScreen = ({route, navigation}) => {
           />
         </View>
 
-        <View style={styles.termContainer}>
-          <Text style={styles.agreeText}>By Continue you agree to</Text>
-          <Text style={styles.policyText}>
-            Term of Use <Text style={{color: '#fff'}}>and </Text>
-            Privacy Policy
-          </Text>
-        </View>
+       
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

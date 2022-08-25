@@ -18,6 +18,12 @@ export const styles = StyleSheet.create({
     paddingTop: Margin.large,
     paddingRight: Margin.medium,
   },
+  upperContainer: {
+    width: '100%',
+    display: 'flex',
+    flex: 3,
+    backgroundColor: 'red',
+  },
   headerText: {
     fontSize: Fonts.h1,
     fontWeight: 'bold',
@@ -41,6 +47,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: Margin.xxl * 4,
   },
   agreeText: {
     fontSize: Fonts.h4,
