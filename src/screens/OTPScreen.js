@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
-
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, SafeAreaView, KeyboardAvoidingView} from 'react-native';
+import auth from '@react-native-firebase/auth';
+import {useStore} from '../global/store';
 const CELL_COUNT = 6;
 import {
   CodeField,
@@ -14,15 +15,46 @@ import {
 import {styles} from '../styles/screens/OTP';
 import Button from '../components/button';
 
-const OTPScreen = ({route}) => {
+const OTPScreen = ({route, navigation}) => {
   const {phoneNumber} = route.params;
+  const {confirm} = route.params;
+  const {user, setUser} = useStore();
 
+  //OTP Field Value and State
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
+
+  //Firebase Function to verify OTP
+  async function confirmCode() {
+    try {
+      await confirm.confirm(value);
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  }
+
+  // Handle user state changes
+  function onAuthStateChanged(user) {
+    console.log('onAuthStateChanged', user);
+    if (user) {
+      setUser({
+        phoneNumber: user.phoneNumber,
+        uid: user.uid,
+      });
+      navigation.navigate('Home');
+    }
+    // if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -53,7 +85,11 @@ const OTPScreen = ({route}) => {
           />
         </View>
         <View style={styles.buttonContainer}>
-          <Button />
+          <Button
+            onclick={() => {
+              confirmCode();
+            }}
+          />
         </View>
 
         <View style={styles.termContainer}>

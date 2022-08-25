@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-
 import React, {useState} from 'react';
 import {View, Text, SafeAreaView, KeyboardAvoidingView} from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 // Styles and components
 import {styles} from '../styles/screens/Login';
@@ -10,6 +10,19 @@ import Button from '../components/button';
 
 const LoginScreen = ({navigation}) => {
   const [phoneNumber, setPhoneNumber] = useState('');
+
+  async function signInWithPhoneNumber(phoneNumber) {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    if (confirmation) {
+      navigation.navigate('OTP', {
+        phoneNumber: '+91' + phoneNumber,
+        confirm: confirmation,
+      });
+    } else {
+      alert('Something went wrong,Please try again later');
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView>
@@ -25,9 +38,7 @@ const LoginScreen = ({navigation}) => {
           <Button
             onclick={() => {
               if (phoneNumber.length === 10) {
-                navigation.navigate('OTP', {
-                  phoneNumber: '+91' + phoneNumber,
-                });
+                signInWithPhoneNumber(`+91${phoneNumber}`);
               } else {
                 alert('Please enter a valid phone number');
               }
