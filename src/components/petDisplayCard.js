@@ -11,9 +11,9 @@ import {
 
 import {styles} from '../styles/components/petDisplayCard';
 
-const PetDisplayCard = ({name, breed, age}) => {
+const PetDisplayCard = ({name, breed, age, item, onPress}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.imageContainer}>
         <Image
           source={require('../../assets/image/dog.png')}

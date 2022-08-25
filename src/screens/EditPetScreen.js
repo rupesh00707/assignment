@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import {useStore} from '../global/store';
-import {create} from '../function/CRUD';
+import {updateById} from '../function/CRUD';
 //Components
 import {Icon} from 'react-native-elements';
 import CustomInput from '../components/customInput';
@@ -12,26 +12,28 @@ import Counter from '../components/counter';
 import {styles} from '../styles/screens/AddPet';
 import {vw, Colors} from '../utilities/variables';
 
-const AddPetScreen = ({navigation}) => {
+const EditPetScreen = ({navigation, route}) => {
   const {user, setUser} = useStore();
-  const [petName, setPetName] = useState('');
-  const [petBreed, setPetBreed] = useState('');
-  const [petAge, setPetAge] = useState({
-    years: 0,
-    months: 0,
-  });
-  const [gender, setGender] = useState('Male');
+  const {pet} = route.params;
+  console.log('---->>>', pet);
+  const [petName, setPetName] = useState(`${pet?.petName}`);
+  const [petBreed, setPetBreed] = useState(`${pet?.petBreed}`);
+  const [petAge, setPetAge] = useState(pet?.petAge);
+  const [gender, setGender] = useState(`${pet?.gender}`);
 
-  const addPet = () => {
-    create(
+  const updatePet = () => {
+    updateById(
       `${user.uid}`,
+      pet.id,
       {
         petName,
         petBreed,
         petAge,
         gender,
       },
-      'Pet added SuccessGully',
+      () => {
+        navigation.goBack();
+      },
     );
   };
 
@@ -48,7 +50,7 @@ const AddPetScreen = ({navigation}) => {
             style={styles.backIcon}
           />
         </View>
-        <Text style={styles.headingText}>Add Your Pet's</Text>
+        <Text style={styles.headingText}>Edit Your Pet's</Text>
         <Text
           style={[
             styles.headingText,
@@ -57,18 +59,6 @@ const AddPetScreen = ({navigation}) => {
             },
           ]}>
           Details
-        </Text>
-        <Text style={styles.subHeadingText}>
-          Add your pet's to Pawpurrfect. Based on your pet,
-        </Text>
-        <Text
-          style={[
-            styles.subHeadingText,
-            {
-              marginTop: 0,
-            },
-          ]}>
-          we will provide best service providers
         </Text>
       </View>
       <View style={styles.formContainer}>
@@ -148,8 +138,8 @@ const AddPetScreen = ({navigation}) => {
           />
         </TouchableOpacity>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={addPet}>
-            <Text style={styles.buttonText}>Next</Text>
+          <TouchableOpacity style={styles.button} onPress={updatePet}>
+            <Text style={styles.buttonText}>Update</Text>
             <View style={styles.buttonIcon}>
               <Icon
                 name="chevron-forward-outline"
@@ -164,4 +154,4 @@ const AddPetScreen = ({navigation}) => {
     </SafeAreaView>
   );
 };
-export default AddPetScreen;
+export default EditPetScreen;

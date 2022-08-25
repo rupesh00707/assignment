@@ -1,23 +1,26 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useState, useEffect, useCallback} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import {View, Text, TouchableOpacity, SafeAreaView} from 'react-native';
 import {useStore} from '../global/store';
+import {getAllDocFromCollection} from '../function/CRUD';
 //Components
 import PetDisplayCard from '../components/petDisplayCard';
 import {Icon} from 'react-native-elements';
-
+//Styles
 import {styles} from '../styles/screens/Home';
 import {vw, Colors} from '../utilities/variables';
 
 const HomeScreen = ({navigation}) => {
   const {user, setUser} = useStore();
+  const [petsData, setPetsData] = useState([]);
 
+  useFocusEffect(
+    useCallback(() => {
+      getAllDocFromCollection(`${user.uid}`, setPetsData);
+    }, []),
+  );
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerContainer}>
@@ -34,9 +37,18 @@ const HomeScreen = ({navigation}) => {
         <Text style={styles.headingText}>My Pets</Text>
       </View>
       <View style={styles.cardContainer}>
-        <PetDisplayCard name="Bella" breed="Pug" age="2" />
-        <PetDisplayCard name="Bella" breed="Pug" age="2" />
-        <PetDisplayCard name="Bella" breed="Pug" age="2" />
+        {petsData?.map((pet, index) => {
+          return (
+            <PetDisplayCard
+              key={index}
+              name={pet?.petName}
+              breed={pet?.petBreed}
+              age={`${pet?.petAge?.years} years ${pet?.petAge?.months} months`}
+              item={pet}
+              onPress={() => navigation.navigate('EditPet', {pet})}
+            />
+          );
+        })}
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
