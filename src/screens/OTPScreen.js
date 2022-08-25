@@ -39,7 +39,6 @@ const OTPScreen = ({route, navigation}) => {
 
   // Handle user state changes
   function onAuthStateChanged(user) {
-    console.log('onAuthStateChanged', user);
     if (user) {
       setUser({
         phoneNumber: user.phoneNumber,

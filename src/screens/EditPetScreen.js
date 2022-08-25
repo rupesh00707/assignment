@@ -15,7 +15,6 @@ import {vw, Colors} from '../utilities/variables';
 const EditPetScreen = ({navigation, route}) => {
   const {user, setUser} = useStore();
   const {pet} = route.params;
-  console.log('---->>>', pet);
   const [petName, setPetName] = useState(`${pet?.petName}`);
   const [petBreed, setPetBreed] = useState(`${pet?.petBreed}`);
   const [petAge, setPetAge] = useState(pet?.petAge);
