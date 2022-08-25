@@ -46,10 +46,13 @@ export const Radius = {
 
 export const Colors = {
   white: '#fff',
+  whiteLight:'rgba(255, 255, 255, 0.50)',
   black: '#000',
   bg: '#393c4b',
   bgLight: '#464857',
   font: '#fff',
+  fontDark:'#393c4b',
   accent: '#38B2AC',
+
  
 }
